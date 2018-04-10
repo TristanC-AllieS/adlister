@@ -16,6 +16,18 @@
 
     <a href="/profile/update" class="btn btn-primary">Update Profile</a>
 
+    <h3>Your current ads:</h3>
+    <c:forEach var="ad" items="${sessionScope.userAds}">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">${ad.getTitle()}</h2>
+                    <p class="card-text">${ad.getDescription()}</p>
+                </div>
+            </div>
+        </div>
+    </c:forEach>
+
 </div>
 
 </body>
