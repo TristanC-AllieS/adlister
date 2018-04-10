@@ -12,19 +12,19 @@
         <form action="/register" method="post">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input id="username" name="username" class="form-control" type="text">
+                <input required id="username" name="username" class="form-control" type="text" value="${stickyUser}">
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input id="email" name="email" class="form-control" type="text">
+                <input required id="email" name="email" class="form-control" type="email" value="${stickyEmail}">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input id="password" name="password" class="form-control" type="password">
+                <input required id="password" name="password" class="form-control" type="password">
             </div>
             <div class="form-group">
                 <label for="confirm_password">Confirm Password</label>
-                <input id="confirm_password" name="confirm_password" class="form-control" type="password">
+                <input required id="confirm_password" name="confirm_password" class="form-control" type="password">
             </div>
             <input type="submit" class="btn btn-primary btn-block">
         </form>
