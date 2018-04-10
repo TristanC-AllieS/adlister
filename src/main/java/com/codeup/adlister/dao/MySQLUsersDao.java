@@ -35,6 +35,57 @@ public class MySQLUsersDao implements Users {
     }
 
     @Override
+    public Long updateUsername(String username, Long id) {
+        try {
+            String query = "UPDATE users SET username = ? WHERE id = ?";
+            PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, username);
+            stmt.setLong(2, id);
+            stmt.executeUpdate();
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next())
+                return rs.getLong(1);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating username", e);
+        }
+        return 0L;
+    }
+
+    @Override
+    public Long updateEmail(String email, Long id) {
+        try {
+            String query = "UPDATE users SET email = ? WHERE id = ?";
+            PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, email);
+            stmt.setLong(2, id);
+            stmt.executeUpdate();
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next())
+                return rs.getLong(1);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating email", e);
+        }
+        return 0L;
+    }
+
+    @Override
+    public Long updatePassword(String password, Long id) {
+        try {
+            String query = "UPDATE users SET password = ? WHERE id = ?";
+            PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, password);
+            stmt.setLong(2, id);
+            stmt.executeUpdate();
+            ResultSet rs = stmt.getGeneratedKeys();
+            if(rs.next())
+                return rs.getLong(1);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating password", e);
+        }
+        return 0L;
+    }
+
+    @Override
     public Long insert(User user) {
         String query = "INSERT INTO users(username, email, password) VALUES (?, ?, ?)";
         try {
