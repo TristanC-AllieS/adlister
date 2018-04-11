@@ -25,7 +25,9 @@ public class RegisterServlet extends HttpServlet {
         boolean inputHasErrors = !password.equals(passwordConfirmation);
 
         if (inputHasErrors) {
-            response.sendRedirect("/register");
+            request.setAttribute("stickyEmail", email);
+            request.setAttribute("stickyUser", username);
+            request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
             return;
         }
 
