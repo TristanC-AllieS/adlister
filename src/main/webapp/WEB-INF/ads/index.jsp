@@ -10,6 +10,7 @@
 <jsp:include page="/WEB-INF/partials/navbar.jsp" />
 
 <div class="container">
+    <jsp:include page="/WEB-INF/partials/messages.jsp"/>
     <h1>Here Are all the ads!</h1>
 
     <c:forEach var="ad" items="${ads}">
