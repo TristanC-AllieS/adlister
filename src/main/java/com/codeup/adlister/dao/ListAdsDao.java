@@ -55,4 +55,6 @@ public class ListAdsDao implements Ads {
         ));
         return ads;
     }
+
+    public List<Ad> getAdsByUser(Long userId) { return null; }
 }
