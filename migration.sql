@@ -1,15 +1,13 @@
 USE adlister_db;
 
-DROP TABLE IF EXISTS ads;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS categories;
-DROP TABLE IF EXISTS category_ad_pivot;
+SET FOREIGN_KEY_CHECKS=0;
+DROP TABLE IF EXISTS users, ads, categories, category_ad_pivot;
 
 CREATE TABLE users (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     username VARCHAR(32) UNIQUE NOT NULL,
     email VARCHAR(254) NOT NULL,
-    password VARCHAR(32) NOT NULL,
+    password VARCHAR(64) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -34,4 +32,5 @@ CREATE TABLE category_ad_pivot (
     category_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (ad_id) REFERENCES ads(id),
     FOREIGN KEY (category_id) REFERENCES categories(id)
+        ON DELETE CASCADE
 );

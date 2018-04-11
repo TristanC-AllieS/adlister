@@ -14,22 +14,35 @@ import java.io.IOException;
 @WebServlet(name = "controllers.CreateAdServlet", urlPatterns = "/ads/create")
 public class CreateAdServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         if (request.getSession().getAttribute("user") == null) {
             response.sendRedirect("/login");
             return;
         }
-        request.getRequestDispatcher("/WEB-INF/ads/create.jsp")
-            .forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/ads/create.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String title = request.getParameter("title");
+        String description = request.getParameter("description");
+
+
         User user = (User) request.getSession().getAttribute("user");
+
         Ad ad = new Ad(
             user.getId(),
-            request.getParameter("title"),
-            request.getParameter("description")
+            title,
+            description
         );
-        DaoFactory.getAdsDao().insert(ad);
-        response.sendRedirect("/ads");
+
+        try {
+            DaoFactory.getAdsDao().insert(ad);
+            response.sendRedirect("/ads");
+        } catch (RuntimeException e) {
+            request.setAttribute("stickyTitle", title);
+            request.setAttribute( "stickyDescription", description);
+            request.getRequestDispatcher("/WEB-INF/ads/create.jsp").forward(request, response);
+        }
     }
 }
