@@ -18,6 +18,13 @@ public class AdsIndexServlet extends HttpServlet {
         request.setAttribute("ads", DaoFactory.getAdsDao().all());
         request.setAttribute("categoryDao", DaoFactory.getCategoriesDao());
 
+        if(request.getParameter("search") == null) {
+            request.setAttribute("ads", DaoFactory.getAdsDao().all());
+        } else {
+            String search = request.getParameter("search");
+            request.setAttribute("ads", DaoFactory.getAdsDao().searchAds(search));
+        }
+
         String selectedAd = request.getPathInfo();
 
         if (selectedAd == null) {

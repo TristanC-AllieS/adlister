@@ -12,5 +12,6 @@ public interface Ads {
     List<Ad> getAdsByUser(Long userId);
     List<Ad> getAdsWithCategory(Long categoryId);
     long linkAdToCategory(long adId, long categoryId);
+    List<Ad> searchAds(String search);
 }
 
