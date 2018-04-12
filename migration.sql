@@ -27,11 +27,16 @@ CREATE TABLE categories (
     PRIMARY KEY (id)
 );
 
+INSERT INTO categories (name) VALUE ("Electronics");
+INSERT INTO categories (name) VALUE ("Junk");
+INSERT INTO categories (name) VALUE ("Automobiles");
+INSERT INTO categories (name) VALUE ("Clothing");
+INSERT INTO categories (name) VALUE ("Other");
+
 CREATE TABLE category_ad_pivot (
     ad_id INT UNSIGNED NOT NULL,
     category_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (ad_id) REFERENCES ads(id),
+    FOREIGN KEY (ad_id) REFERENCES ads(id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES categories(id)
-        ON DELETE CASCADE
 );
 
