@@ -21,7 +21,7 @@
 
     <c:forEach var="ad" items="${ads}">
         <div class="col-md-6">
-            <h2>${ad.getTitle()}</h2>
+            <a href="/ads/${ad.getId()}">${ad.getTitle()}</a>
             <p>${ad.getDescription()}</p>
             <ul>
             <c:forEach var="c" items="${categoryDao.getCategoriesWithAd(ad.getId())}">
