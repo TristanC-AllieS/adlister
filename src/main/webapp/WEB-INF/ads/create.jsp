@@ -20,11 +20,10 @@
             </div>
             <div>
                 <h4>Select category: </h4>
-                <select name="category">
-                    <c:forEach var="category" items="${categories}">
-                        <option value="${category.getId()}">${category.getName()}</option>
-                    </c:forEach>
-                </select>
+                <c:forEach var="category" items="${categories}">
+                    <label for="category-${category.getId()}">${category.getName()}</label>
+                    <input type="checkbox" name="category" id="category-${category.getId()}" value="${category.getId()}">
+                </c:forEach>
             </div>
             <input type="submit" class="btn btn-block btn-primary">
         </form>

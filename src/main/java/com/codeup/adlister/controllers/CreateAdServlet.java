@@ -27,8 +27,8 @@ public class CreateAdServlet extends HttpServlet {
 
         String title = request.getParameter("title");
         String description = request.getParameter("description");
-        String category = request.getParameter("category");
-        System.out.println(request.getParameter("category"));
+//        String category = request.getParameter("category");
+        String[] categories = request.getParameterValues("category");
 
         User user = (User) request.getSession().getAttribute("user");
 
@@ -40,12 +40,14 @@ public class CreateAdServlet extends HttpServlet {
 
         try {
             DaoFactory.getAdsDao().insert(ad);
-            DaoFactory.getAdsDao().linkAdToCategory(DaoFactory.getAdsDao().all().size(), Long.parseLong(category));
+            for (String catId : categories) {
+                DaoFactory.getAdsDao().linkAdToCategory(DaoFactory.getAdsDao().all().size(), Long.parseLong(catId));
+            }
             response.sendRedirect("/ads");
         } catch (RuntimeException e) {
             request.setAttribute("stickyTitle", title);
             request.setAttribute( "stickyDescription", description);
-            request.setAttribute("stickyCategory", category);
+//            request.setAttribute("stickyCategory", category);
             request.setAttribute("categories", DaoFactory.getCategoriesDao().all());
             request.getRequestDispatcher("/WEB-INF/ads/create.jsp").forward(request, response);
         }
