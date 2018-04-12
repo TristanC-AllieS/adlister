@@ -34,3 +34,4 @@ CREATE TABLE category_ad_pivot (
     FOREIGN KEY (category_id) REFERENCES categories(id)
         ON DELETE CASCADE
 );
+

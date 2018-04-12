@@ -19,6 +19,7 @@ public class CreateAdServlet extends HttpServlet {
             response.sendRedirect("/login");
             return;
         }
+        request.setAttribute("categories", DaoFactory.getCategoriesDao().all());
         request.getRequestDispatcher("/WEB-INF/ads/create.jsp").forward(request, response);
     }
 
@@ -26,7 +27,8 @@ public class CreateAdServlet extends HttpServlet {
 
         String title = request.getParameter("title");
         String description = request.getParameter("description");
-
+        String category = request.getParameter("category");
+        System.out.println(request.getParameter("category"));
 
         User user = (User) request.getSession().getAttribute("user");
 
@@ -38,10 +40,13 @@ public class CreateAdServlet extends HttpServlet {
 
         try {
             DaoFactory.getAdsDao().insert(ad);
+            DaoFactory.getAdsDao().linkAdToCategory(DaoFactory.getAdsDao().all().size(), Long.parseLong(category));
             response.sendRedirect("/ads");
         } catch (RuntimeException e) {
             request.setAttribute("stickyTitle", title);
             request.setAttribute( "stickyDescription", description);
+            request.setAttribute("stickyCategory", category);
+            request.setAttribute("categories", DaoFactory.getCategoriesDao().all());
             request.getRequestDispatcher("/WEB-INF/ads/create.jsp").forward(request, response);
         }
     }

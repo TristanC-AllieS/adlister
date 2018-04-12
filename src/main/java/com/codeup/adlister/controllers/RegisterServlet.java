@@ -36,7 +36,6 @@ public class RegisterServlet extends HttpServlet {
             DaoFactory.getUsersDao().insert(user);
             response.sendRedirect("/login");
         } catch (RuntimeException e) {
-            e.printStackTrace();
             request.setAttribute("stickyEmail", email);
             request.setAttribute("stickyUser", username);
             request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);

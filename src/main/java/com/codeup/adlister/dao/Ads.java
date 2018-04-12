@@ -10,5 +10,7 @@ public interface Ads {
     // insert a new ad and return the new ad's id
     Long insert(Ad ad);
     List<Ad> getAdsByUser(Long userId);
+    List<Ad> getAdsWithCategory(Long categoryId);
+    long linkAdToCategory(long adId, long categoryId);
 }
 
