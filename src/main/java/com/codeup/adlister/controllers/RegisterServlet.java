@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet(name = "controllers.RegisterServlet", urlPatterns = "/register")
 public class RegisterServlet extends HttpServlet {
@@ -25,7 +26,10 @@ public class RegisterServlet extends HttpServlet {
         boolean inputHasErrors = !password.equals(passwordConfirmation);
 
         if (inputHasErrors) {
-            response.sendRedirect("/register");
+            request.setAttribute("error", "Passwords do not match!");
+            request.setAttribute("stickyEmail", email);
+            request.setAttribute("stickyUser", username);
+            request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
             return;
         }
 
@@ -36,6 +40,19 @@ public class RegisterServlet extends HttpServlet {
             DaoFactory.getUsersDao().insert(user);
             response.sendRedirect("/login");
         } catch (RuntimeException e) {
+            e.printStackTrace();
+
+            SQLException se = (SQLException) e.getCause();
+            System.out.println(se.getSQLState());
+            switch (se.getSQLState()) {
+                case "23000":
+                    request.setAttribute("error", "That username already exists! Please pick another one.");
+                    break;
+                default:
+                    request.setAttribute("error", "Invalid Login!");
+                    break;
+            }
+
             request.setAttribute("stickyEmail", email);
             request.setAttribute("stickyUser", username);
             request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);

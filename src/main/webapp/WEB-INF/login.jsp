@@ -8,11 +8,12 @@
 <body>
     <jsp:include page="/WEB-INF/partials/navbar.jsp" />
     <div class="container">
+        <jsp:include page="/WEB-INF/partials/messages.jsp"/>
         <h1>Please Log In</h1>
         <form action="/login" method="POST">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input id="username" name="username" class="form-control" type="text" value="${sessionScope.stickyUser}">
+                <input id="username" name="username" class="form-control" type="text" value="${stickyUser}">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
