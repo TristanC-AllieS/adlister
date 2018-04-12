@@ -3,9 +3,6 @@ package com.codeup.adlister.dao;
 import com.codeup.adlister.models.Ad;
 import com.mysql.cj.jdbc.Driver;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,4 +116,20 @@ public class MySQLAdsDao implements Ads {
             throw new RuntimeException("Could not link ad to category!", e);
         }
     }
+
+    @Override
+    public List<Ad> searchAds(String search) {
+        try {
+            String select = "SELECT * FROM ads where description LIKE CONCAT(\"%\", ?, \"%\") or title LIKE CONCAT(\"%\", ?, \"%\")";
+            PreparedStatement stmt = connection.prepareStatement(select);
+            stmt.setString(1, search);
+            stmt.setString( 2, search);
+            ResultSet rs = stmt.executeQuery();
+            return createAdsFromResults(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving all ads.", e);
+        }
+    }
 }
+
+
