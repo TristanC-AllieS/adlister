@@ -15,11 +15,17 @@
 
     <c:forEach var="ad" items="${ads}">
         <div class="col-md-6">
-            <h2>${ad.title}</h2>
-            <p>${ad.description}</p>
+            <h2>${ad.getTitle()}</h2>
+            <p>${ad.getDescription()}</p>
+            <ul>
+            <c:forEach var="c" items="${categoryDao.getCategoriesWithAd(ad.getId())}">
+                <li>${c.getName()}</li>
+            </c:forEach>
+            </ul>
         </div>
     </c:forEach>
 </div>
 
+<jsp:include page="/WEB-INF/partials/categories.jsp" />
 </body>
 </html>

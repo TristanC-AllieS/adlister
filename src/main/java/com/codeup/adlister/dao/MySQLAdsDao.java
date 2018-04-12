@@ -84,4 +84,39 @@ public class MySQLAdsDao implements Ads {
         }
         return ads;
     }
+
+    @Override
+    public List<Ad> getAdsWithCategory(Long categoryId) {
+        List<Ad> ads = new ArrayList<>();
+        try {
+            String query = "select * from ads where id in ( select ad_id from category_ad_pivot where category_id = ? )";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setLong(1, categoryId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                ads.add(new Ad(
+                        rs.getLong("id"),
+                        rs.getLong("user_id"),
+                        rs.getString("title"),
+                        rs.getString("description")
+                ));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error getting ads from category", e);
+        }
+        return ads;
+    }
+
+    public long linkAdToCategory(long adId, long catId) {
+        try {
+            String query = "INSERT INTO category_ad_pivot (ad_id, category_id) VALUES (?, ?)";
+            PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            stmt.setLong(1, adId);
+            stmt.setLong(2, catId);
+            return (long) stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Could not link ad to category!", e);
+        }
+    }
 }

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -17,8 +18,19 @@
                 <label for="description">Description</label>
                 <textarea required id="description" name="description" class="form-control">${stickyDescription}</textarea>
             </div>
+            <div>
+                <h4>Select category: </h4>
+                <select name="category">
+                    <c:forEach var="category" items="${categories}">
+                        <option value="${category.getId()}">${category.getName()}</option>
+                    </c:forEach>
+                </select>
+            </div>
             <input type="submit" class="btn btn-block btn-primary">
         </form>
     </div>
+
+    <%--radio buttons for categories--%>
+
 </body>
 </html>
